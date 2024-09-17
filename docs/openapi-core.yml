@@ -1,0 +1,263 @@
+openapi: 3.1.0
+info:
+  title: Java API, JPA and Hibernate Exercise - Core Criteria
+  description: Core Criteria for Java API, JPA and Hibernate Exercise
+  version: 0.2.3
+  contact:
+    name: Java API, JPA and Hibernate
+
+servers:
+  - url: http://localhost:4000
+tags:
+  - name: users
+  - name: games
+paths:
+  /users:
+    post:
+      tags:
+        - users
+      summary: Create a user
+      description: Create a new user
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '201':
+          description: Successfully created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    get:
+      tags:
+        - users
+      summary: Get users
+      description: Get all users
+      operationId: getUsers
+      responses:
+        '200':
+          description: Successfully returned a list of all users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllUsers'
+  /users/{id}:
+    put:
+      tags:
+        - users
+      summary: Update a user
+      description: Update a user by ID
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the user to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '201':
+          description: Successfully updated the specified user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      tags:
+        - users
+      summary: Delete a user
+      description: Delete a user by ID
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the user to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successfully deleted the specified user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /games:
+    post:
+      tags:
+        - games
+      summary: Create a game
+      description: Create a new user
+      operationId: createGame
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGame'
+      responses:
+        '201':
+          description: Successfully created the game
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+    get:
+      tags:
+        - games
+      summary: Get games
+      description: Get all games
+      operationId: getGames
+      responses:
+        '200':
+          description: Successfully returned a list of all of the games
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllGames'
+  /games/{id}:
+    put:
+      tags:
+        - games
+      summary: Update a game
+      description: Update a game by ID
+      operationId: updateGame
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the game to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGame'
+      responses:
+        '201':
+          description: Successfully updated the specified game
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+    delete:
+      tags:
+        - games
+      summary: Delete a game
+      description: Delete a game by ID
+      operationId: deleteGame
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the game to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successfully deleted the specified game
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+
+components:
+  schemas:
+    CreateUser:
+      type: object
+      required: [email, firstName, lastName, username, phone]
+      properties:
+        email:
+          type: string
+          format: string
+          example: "example@example.com"
+        firstName:
+          type: string
+          example: "Matt"
+        lastName:
+          type: string
+          example: "Bellamy"
+        username:
+          type: string
+          example: "muse"
+        phone:
+          type: string
+          example: "+447182739"
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        email:
+          type: string
+          format: string
+          example: "example@example.com"
+        firstName:
+          type: string
+          example: "Matt"
+        lastName:
+          type: string
+          example: "Bellamy"
+        username:
+          type: string
+          example: "muse"
+        phone:
+          type: string
+          example: "+447182739"
+    AllUsers:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
+
+    CreateGame:
+      type: object
+      required: [ title, gameType, age, genre,]
+      properties:
+        title:
+          type: string
+          example: "The Elder Scrolls: Morrowind"
+        gameType:
+          type: string
+          example: "DVD"
+        age:
+          type: integer
+          example: 7
+        genre:
+          type: string
+          example: "Fantasy RPG"
+
+    Game:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: "The Elder Scrolls: Morrowind"
+        gameType:
+          type: string
+          example: "DVD"
+        age:
+          type: integer
+          example: 7
+        genre:
+          type: string
+          example: "Fantasy RPG"
+
+    AllGames:
+      type: array
+      items:
+        $ref:
+
+
