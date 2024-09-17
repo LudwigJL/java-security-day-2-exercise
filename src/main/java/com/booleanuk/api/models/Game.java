@@ -43,4 +43,7 @@ public class Game {
         this.genre = genre;
     }
 
+    public void setLibraryUser(LibraryUser libraryUser) {
+        this.libraryUser = null;
+    }
 }

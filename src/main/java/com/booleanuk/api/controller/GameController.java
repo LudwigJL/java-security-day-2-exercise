@@ -104,11 +104,9 @@ public class GameController {
         }
 
         gameRepository.delete(game);
-        libraryUser.removeGame(game);
+        libraryUser.setGames(game);
 
         GameResponse gameResponse = new GameResponse();
-        gameResponse.set(game);
-
         return new ResponseEntity<>(gameResponse, HttpStatus.CREATED);
     }
 }

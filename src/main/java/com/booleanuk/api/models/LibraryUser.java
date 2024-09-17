@@ -41,11 +41,7 @@ public class LibraryUser {
         this.phone = phone;
     }
 
-    public void addGame(Game game){
-        this.games.add(game);
-    }
-
-    public void removeGame(Game game){
-        this.games.remove(game);
+    public void setGames(Game gameToRemove) {
+        this.games.remove(gameToRemove);
     }
 }
