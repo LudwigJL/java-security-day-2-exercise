@@ -11,6 +11,7 @@ servers:
 tags:
   - name: users
   - name: games
+  - name: libraryusers
 paths:
   /users:
     post:
@@ -170,6 +171,66 @@ paths:
               schema:
                 $ref: '#/components/schemas/Game'
 
+get:
+  tags:
+    - libraryusers
+  summary: Get users
+  description: Get all users
+  operationId: getUsers
+  responses:
+    '200':
+      description: Successfully returned a list of all users
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AllLibraryUsers'
+  /users/{id}:
+    put:
+      tags:
+        - libraryusers
+      summary: Update a user
+      description: Update a user by ID
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the user to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLibraryUser'
+      responses:
+        '201':
+          description: Successfully updated the specified user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LibraryUser'
+    delete:
+      tags:
+        - libraryusers
+      summary: Delete a user
+      description: Delete a user by ID
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the user to delete
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successfully deleted the specified user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
 components:
   schemas:
     CreateUser:
@@ -254,10 +315,37 @@ components:
         genre:
           type: string
           example: "Fantasy RPG"
-
     AllGames:
       type: array
       items:
         $ref:
+
+    Libraryuser:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        email:
+          type: string
+          format: string
+          example: "example@example.com"
+        firstName:
+          type: string
+          example: "Matt"
+        lastName:
+          type: string
+          example: "Bellamy"
+        username:
+          type: string
+          example: "muse"
+        phone:
+          type: string
+          example: "+447182739"
+      AllUsers:
+        type: array
+        items:
+          $ref: '#/components/schemas/User'
+
 
 

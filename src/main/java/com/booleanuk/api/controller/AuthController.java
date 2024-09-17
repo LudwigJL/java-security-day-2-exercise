@@ -1,4 +1,4 @@
-package com.booleanuk.api.controllers;
+package com.booleanuk.api.controller;
 
 import com.booleanuk.api.models.ERole;
 import com.booleanuk.api.models.Role;

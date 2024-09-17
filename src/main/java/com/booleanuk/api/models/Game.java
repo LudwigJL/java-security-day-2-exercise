@@ -1,5 +1,6 @@
 package com.booleanuk.api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -30,10 +31,16 @@ public class Game {
     @Column
     private String genre;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties(value = {"title", "game_studio", "genre", "num_of_players", "age"})
+    private LibraryUser libraryUser;
+
     public Game(String title, String gameType, int age, String genre) {
         this.title = title;
         this.gameType = gameType;
         this.age = age;
         this.genre = genre;
     }
+
 }

@@ -1,11 +1,10 @@
-package com.booleanuk.api.controllers;
+package com.booleanuk.api.controller;
 
 import com.booleanuk.api.models.Game;
+import com.booleanuk.api.models.LibraryUser;
+import com.booleanuk.api.payload.responses.*;
 import com.booleanuk.api.repository.GameRepository;
-import com.booleanuk.api.payload.responses.ErrorResponse;
-import com.booleanuk.api.payload.responses.GameListResponse;
-import com.booleanuk.api.payload.responses.GameResponse;
-import com.booleanuk.api.payload.responses.Response;
+import com.booleanuk.api.repository.LibraryUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +19,9 @@ public class GameController {
 
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private LibraryUserRepository libraryUserRepository;
 
     @GetMapping
     public ResponseEntity<Response<?>> getAllGames(){
@@ -89,22 +91,24 @@ public class GameController {
         return new ResponseEntity<>(gameResponse, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Response<?>> deleteGame(@PathVariable int id){
-        Game game = this.gameRepository.findById(id).orElse(null);
+    //Return book
+    @DeleteMapping("/{gameId}/libraryuser/{userId}")
+    public ResponseEntity<Response<?>> deleteGame(@PathVariable int gameId, @PathVariable int userId){
+        Game game = this.gameRepository.findById(gameId).orElse(null);
+        LibraryUser libraryUser = this.libraryUserRepository.findById(userId).orElse(null);
 
-        if (game == null){
+        if (game == null || libraryUser == null){
             ErrorResponse error = new ErrorResponse();
-            error.set("No games found with that id to remove");
+            error.set("No games or user found with that id to remove");
             return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-
         }
+
         gameRepository.delete(game);
+        libraryUser.removeGame(game);
 
         GameResponse gameResponse = new GameResponse();
         gameResponse.set(game);
 
         return new ResponseEntity<>(gameResponse, HttpStatus.CREATED);
     }
-
 }
